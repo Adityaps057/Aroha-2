@@ -1527,8 +1527,8 @@ export function MapPage() {
               </ul>
               
               <div className="bg-accent/60 border border-border/80 rounded-2xl p-4 w-full text-left text-xs mb-6 font-mono break-all text-muted-foreground">
-                <span className="font-semibold text-foreground">API Key Used:</span><br />
-                AIzaSyC1N_oj4VQWRusYJr0EInl9R03ynp_eGGE
+                <span className="font-semibold text-foreground">Configure:</span><br />
+                Set VITE_GOOGLE_MAPS_API_KEY in .env.local
               </div>
 
               <div className="flex gap-3 w-full">
