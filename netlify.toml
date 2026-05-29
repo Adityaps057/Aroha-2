@@ -1,0 +1,96 @@
+# Netlify Configuration for AROHA
+# This file auto-configures Netlify deployment settings
+
+[build]
+# Command to build the project
+command = "npm run build"
+
+# Directory to deploy (Vite outputs here)
+publish = "dist"
+
+# Environment to use
+environment = { NODE_VERSION = "18.x" }
+
+# Cache configuration
+functions = "netlify/functions"
+
+[build.environment]
+# Node.js version - using LTS
+NODE_VERSION = "18"
+
+# npm configuration
+NPM_FLAGS = "--legacy-peer-deps"
+
+# Production flag for optimization
+NODE_ENV = "production"
+
+# Vite configuration
+VITE_APP_NAME = "AROHA"
+
+[context.production]
+# Production environment settings
+environment = { NODE_ENV = "production" }
+
+[context.deploy-preview]
+# Deploy preview settings (for PRs)
+command = "npm run build"
+environment = { NODE_ENV = "production" }
+
+[context.branch-deploy]
+# Branch deploy settings
+command = "npm run build"
+environment = { NODE_ENV = "production" }
+
+# Asset handling
+[[headers]]
+for = "/*"
+[headers.values]
+# Cache static assets for 1 year
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/index.html"
+[headers.values]
+# Never cache index.html - always fetch fresh
+Cache-Control = "public, max-age=0, must-revalidate"
+# Security headers
+X-Frame-Options = "SAMEORIGIN"
+X-Content-Type-Options = "nosniff"
+X-XSS-Protection = "1; mode=block"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Permissions-Policy = "geolocation=(self), microphone=()"
+
+# Redirect rules
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+# Redirect HTTP to HTTPS
+[[redirects]]
+from = "http://*"
+to = "https://:splat"
+status = 301
+force = true
+
+# Security redirects
+[[redirects]]
+from = "/.env"
+to = "/.env"
+status = 404
+
+[[redirects]]
+from = "/.env.local"
+to = "/.env.local"
+status = 404
+
+[[redirects]]
+from = "/.env.example"
+to = "/.env.example"
+status = 404
+
+# 404 handling for SPA
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
