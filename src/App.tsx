@@ -388,6 +388,8 @@ export default function App() {
         return <ProfilePage onLogout={() => {
           setIsLoggedIn(false);
           setShowLogin(true);
+          setShowSplash(false);
+          setActiveNav("Home");
         }} />;
       case "SOS":
         return <SOSPage />;
