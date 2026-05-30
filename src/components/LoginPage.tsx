@@ -44,6 +44,8 @@ export function LoginPage({ onLogin }: LoginPageProps) {
       } else {
         localStorage.setItem("aroha_logged_in_persist", "true");
         localStorage.setItem("aroha_logged_in_email", email);
+        localStorage.setItem("aroha_logged_in_phone", data.user?.user_metadata?.phone || data.user?.phone || "");
+        localStorage.setItem("aroha_logged_in_name", data.user?.user_metadata?.full_name || email.split("@")[0]);
         toast.success(`Welcome back, ${data.user?.user_metadata?.full_name || email}!`);
         onLogin();
       }
@@ -94,6 +96,8 @@ export function LoginPage({ onLogin }: LoginPageProps) {
         // Email confirmation disabled in Supabase — auto-login
         localStorage.setItem("aroha_logged_in_persist", "true");
         localStorage.setItem("aroha_logged_in_email", email);
+        localStorage.setItem("aroha_logged_in_phone", phone);
+        localStorage.setItem("aroha_logged_in_name", name);
         toast.success(`Welcome to AROHA, ${name}!`);
         onLogin();
       } else {
@@ -128,6 +132,8 @@ export function LoginPage({ onLogin }: LoginPageProps) {
   const handleGuestLogin = () => {
     localStorage.setItem("aroha_logged_in_persist", "true");
     localStorage.setItem("aroha_logged_in_email", "guest@aroha.com");
+    localStorage.setItem("aroha_logged_in_name", "Guest User");
+    localStorage.setItem("aroha_logged_in_phone", "");
     toast.success("Continuing as guest");
     onLogin();
   };

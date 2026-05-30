@@ -18,12 +18,15 @@ export function ProfilePage({ onLogout }: ProfilePageProps) {
 
   const [userProfile, setUserProfile] = useState(() => {
     const savedEmail = localStorage.getItem("aroha_logged_in_email") || "priya.sharma@email.com";
-    const savedName = savedEmail.split("@")[0];
+    const savedName = localStorage.getItem("aroha_logged_in_name") || savedEmail.split("@")[0];
+    const savedPhone = localStorage.getItem("aroha_logged_in_phone") || "";
+    const displayName = savedEmail === "priya.sharma@email.com" ? "Priya Sharma" : (savedName ? savedName.charAt(0).toUpperCase() + savedName.slice(1) : savedEmail.split("@")[0]);
+
     return {
-      name: savedEmail === "priya.sharma@email.com" ? "Priya Sharma" : savedName.charAt(0).toUpperCase() + savedName.slice(1),
+      name: displayName,
       avatar: savedEmail === "guest@aroha.com" ? "👤" : "👩",
       email: savedEmail,
-      phone: "",
+      phone: savedPhone,
       bio: "Travel enthusiast exploring India's hidden gems. Love heritage sites and local cuisine!",
       level: "Explorer Elite",
       isPremium: savedEmail !== "guest@aroha.com",
@@ -337,7 +340,9 @@ export function ProfilePage({ onLogout }: ProfilePageProps) {
                       await supabase.auth.signOut();
                       localStorage.removeItem("aroha_logged_in_persist");
                       localStorage.removeItem("aroha_logged_in_email");
-                      toast.success("Logged out successfully");
+                      localStorage.removeItem("aroha_logged_in_name");
+                      localStorage.removeItem("aroha_logged_in_phone");
+                      toast.success("Logged out successfully. Redirecting to login...");
                       if (onLogout) onLogout();
                     } catch (error: any) {
                       toast.error(error.message || "Failed to log out");
@@ -641,7 +646,9 @@ export function ProfilePage({ onLogout }: ProfilePageProps) {
                     await supabase.auth.signOut();
                     localStorage.removeItem("aroha_logged_in_persist");
                     localStorage.removeItem("aroha_logged_in_email");
-                    toast.success("Logged out successfully");
+                    localStorage.removeItem("aroha_logged_in_name");
+                    localStorage.removeItem("aroha_logged_in_phone");
+                    toast.success("Logged out successfully. Redirecting to login...");
                     if (onLogout) onLogout();
                   } catch (error: any) {
                     toast.error(error.message || "Failed to log out");
